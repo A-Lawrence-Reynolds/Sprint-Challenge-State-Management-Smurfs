@@ -6,7 +6,7 @@ import {
 } from "../actions/index";
 
 const initialState = {
-  smurf: {},
+  smurfs: [],
   error: null,
   isFetching: false
 };
@@ -22,21 +22,20 @@ function reducer(state = initialState, action) {
     case FETCH_SMURF_SUCCESS:
       return {
         ...state,
-        smurf: action.payload,
-        isFetching: true,
+        smurfs: action.payload,
+        isFetching: false,
         error: null
       };
     case POST_SMURF_SUCCESS:
       return {
         ...state,
-        smurf: action.payload,
-        isFetching: true,
+        smurfs: action.payload,
+        isFetching: false,
         error: null
       };
     case FETCH_SMURF_FAILED:
       return {
         ...state,
-        smurf: {},
         isFetching: false,
         error: action.payload
       };

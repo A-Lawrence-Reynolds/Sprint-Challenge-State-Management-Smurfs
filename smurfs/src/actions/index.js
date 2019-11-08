@@ -29,25 +29,24 @@ export const postSmurfLoadingFailed = error => ({
   payload: error
 });
 // fetch smurf api call
-export function fetchSmurf(dispatch) {
+export function fetchSmurfs(dispatch) {
   dispatch(smurfLoading());
 
   return fetch("http://localhost:3333/smurfs")
     .then(response => response.json())
-
-    .then(data => {
-      dispatch(smurfLoadingSuccess(data));
-      return addSmurf(data, dispatch);
-    })
+    .then(data => dispatch(smurfLoadingSuccess(data)))
     .catch(error => dispatch(smurfLoadingFailed(error)));
 }
 //post smurf api call
+
 export function addSmurf(data, dispatch) {
   dispatch(postSmurfLoading());
 
-  return fetch({
-    url: '"http://localhost:3333/smurfs"',
+  return fetch("http://localhost:3333/smurfs", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(data)
   })
     .then(res => res.json())

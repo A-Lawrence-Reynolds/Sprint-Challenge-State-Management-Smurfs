@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { fetchSmurf } from "../actions/index";
+import { fetchSmurfs, addSmurf } from "../actions/index";
 
-function SmurfList(props, dispatch) {
-  const [form, updateForm] = useState({ smurf: "", age: "", height: "" });
+function SmurfList(props) {
+  const [form, updateForm] = useState({ name: "", age: "", height: "" });
   const handleChanges = e => {
     updateForm({
       ...form,
       [e.target.name]: e.target.value
     });
-  };
-  const submitSmurf = e => {
-    e.preventDefault();
-    dispatch({ type: "POST_SMURF", payload: form });
   };
 
   return (
@@ -21,7 +17,7 @@ function SmurfList(props, dispatch) {
       <form>
         <input
           className="input-data"
-          name="smurf"
+          name="name"
           placeholder="Name"
           value={form.smurf}
           onChange={handleChanges}
@@ -40,8 +36,13 @@ function SmurfList(props, dispatch) {
           value={form.height}
           onChange={handleChanges}
         ></input>
-        <button onClick={submitSmurf} type="submit">
-          {" "}
+        <button
+          onClick={e => {
+            e.preventDefault();
+            props.addSmurf(form);
+          }}
+          type="submit"
+        >
           Add To Town
         </button>
       </form>
@@ -55,9 +56,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSmurf: () => fetchSmurf(dispatch)
+    addSmurf: smurf => addSmurf(smurf, dispatch)
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
